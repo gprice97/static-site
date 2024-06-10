@@ -1,3 +1,5 @@
+# This class will handle HTML nodes, thus far just printing a given Node by the values presented in the
+# constructor.
 class HTMLNode:
     def __init__(self, tag=None, value=None, children=None, props=None):
         self.tag = tag
