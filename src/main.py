@@ -1,6 +1,7 @@
 from textnode import TextNode
 from htmlnode import HTMLNode
 from leafnode import LeafNode
+from parentnode import ParentNode
 
 
 def main():
@@ -12,6 +13,16 @@ def main():
     print(node_3.to_html())
     node_4 = LeafNode("a", "Click me!", {"href": "https://www.google.com"})
     print(node_4.to_html())
+    node_5 = ParentNode(
+        "p",
+        [
+            LeafNode("b", "Bold text"),
+            LeafNode(None, "Normal text"),
+            LeafNode("i", "italic text"),
+            LeafNode(None, "Normal text"),
+        ],
+    )
+    print(node_5.to_html())
 
 
 main()

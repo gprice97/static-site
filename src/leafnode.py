@@ -3,7 +3,7 @@ from htmlnode import HTMLNode
 
 # This class works with "Leaf Nodes" which are HTML nodes with no children
 class LeafNode(HTMLNode):
-    def __init__(self, value, tag, props=None):
+    def __init__(self, tag, value, props=None):
         super().__init__(tag=tag, value=value, children=[], props=props)
 
     # This function will convert a "Leaf" Node into an HTML Node
