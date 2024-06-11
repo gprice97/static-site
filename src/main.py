@@ -23,6 +23,8 @@ def main():
         ],
     )
     print(node_5.to_html())
+    node_6 = TextNode("This is Gunnar's Text", "image", "www.GunnarsHouse.com")
+    print(node_6.text_node_to_html_node())
 
 
 main()
