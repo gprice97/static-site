@@ -27,8 +27,8 @@ class TextNode:
         elif self.text_type == "code":
             return LeafNode("code", self.text)
         elif self.text_type == "link":
-            return LeafNode("a", self.text, {"href": self.url})
+            return LeafNode("a", self.text, [], {"href": self.url})
         elif self.text_type == "image":
-            return LeafNode("img", "", {"src": self.url, "alt": self.text})
+            return LeafNode("img", "", [],  {"src": self.url, "alt": self.text})
         else:
             raise Exception("Not a valid TextNode")

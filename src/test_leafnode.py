@@ -6,7 +6,7 @@ from leafnode import LeafNode
 class TestHTMLNode(unittest.TestCase):
     def test_to_html(self):
         # Test 1: Verify props_to_html works as intended.
-        node = LeafNode("a", "Click me!", {"href": "https://www.google.com"})
+        node = LeafNode("a", "Click me!", [], {"href": "https://www.google.com"})
         self.assertEqual(node.to_html(), '<a href="https://www.google.com">Click me!</a>')
 
         # Test 2: Verify empty HTML Node returns an empty string
