@@ -46,7 +46,7 @@ class TestTextNode(unittest.TestCase):
         self.assertEqual(result.children, expected.children, f"Children do not match: {result.children} != {expected.children}")
         self.assertEqual(result.props, expected.props, f"Props do not match: {result.props} != {expected.props}")
 
-    def test_text_to_html_italics(self):
+    def test_text_to_html_italic(self):
         result = TextNode("Want to drink Diet soda and play PS2?", "italic", "").text_node_to_html_node()
         expected = LeafNode("i", "Want to drink Diet soda and play PS2?", [],  {})
         self.assertEqual(result.tag, expected.tag, f"Tags do not match: {result.tag} != {expected.tag}")

@@ -32,3 +32,6 @@ class TextNode:
             return LeafNode("img", "", [],  {"src": self.url, "alt": self.text})
         else:
             raise Exception("Not a valid TextNode")
+
+    def split_nodes_delimiter(self, old_nodes, delimiter, text_type):
+        pass
