@@ -30,4 +30,11 @@ def main():
     new_nodes = node_7.split_nodes_delimiter([node_7], "`", "code")
     print(new_nodes)
 
+    node_8 = TextNode("This is text with a [link](https://www.example.com) and [another](https://www.example.com/another)", "text", None)
+    print(node_8.extract_markdown_links())
+
+    node_9 = TextNode("This is text with an ![image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png) and ![another](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/dfsdkjfd.png)", "text", None)
+    print(node_9.extract_markdown_images())
+
+
 main()

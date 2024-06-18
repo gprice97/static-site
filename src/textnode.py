@@ -1,5 +1,5 @@
 from leafnode import LeafNode
-
+import re
 
 text_type_text = "text"
 text_type_code = "code"
@@ -72,3 +72,8 @@ class TextNode:
         
         return new_nodes
 
+    def extract_markdown_images(self):
+        return re.findall(r"!\[(.*?)\]\((.*?)\)", self.text)
+
+    def extract_markdown_links(self):
+        return re.findall(r"\[(.*?)\]\((.*?)\)", self.text)
