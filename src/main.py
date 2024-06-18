@@ -26,5 +26,8 @@ def main():
     node_6 = TextNode("This is Gunnar's Text", "image", "www.GunnarsHouse.com")
     print(node_6.text_node_to_html_node())
 
+    node_7 = TextNode("This is text with a `code block` word", "text", None)
+    new_nodes = node_7.split_nodes_delimiter([node_7], "`", "code")
+    print(new_nodes)
 
 main()

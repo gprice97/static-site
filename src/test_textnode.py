@@ -62,6 +62,24 @@ class TestTextNode(unittest.TestCase):
         self.assertEqual(result.children, expected.children, f"Children do not match: {result.children} != {expected.children}")
         self.assertEqual(result.props, expected.props, f"Props do not match: {result.props} != {expected.props}")
 
+    def test_split_nodes_delimiter_1(self):
+        node = TextNode("This is text with a `code block` word", "text", None)
+        real_node_list = [TextNode("This is text with a ", "text", ), TextNode("code block", "code", ), TextNode(" word", "text", )]
+        new_nodes = node.split_nodes_delimiter([node], "`", "code")
+        self.assertEqual(new_nodes, real_node_list, f"Nodes do not match!")
+
+    def test_split_nodes_delimiter_2(self):
+        node = TextNode("You guys ever seen the **DINO** Exhibit?!", "text", None)
+        real_node_list = [TextNode("You guys ever seen the ", "text", None), TextNode("DINO", "bold", None), TextNode(" Exhibit?!", "text", None)]
+        new_nodes = node.split_nodes_delimiter([node], "**", "bold")
+        self.assertEqual(new_nodes, real_node_list, f"Nodes do not match!")
+
+    def test_split_nodes_delimiter_3(self):
+        node = TextNode("You guys ever seen the *DINO* Exhibit?!", "text", None)
+        real_node_list = [TextNode("You guys ever seen the ", "text", None), TextNode("DINO", "italics", None), TextNode(" Exhibit?!", "text", None)]
+        new_nodes = node.split_nodes_delimiter([node], "*", "italics")
+        self.assertEqual(new_nodes, real_node_list, f"Nodes do not match!")
+
 
 if __name__ == "__main__":
     unittest.main()
