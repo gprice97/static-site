@@ -80,18 +80,18 @@ class TestTextNode(unittest.TestCase):
         new_nodes = node.split_nodes_delimiter([node], "*", "italics")
         self.assertEqual(new_nodes, real_node_list, f"Nodes do not match!")
 
-    def text_extract_links_1(self):
+    def test_text_extract_links_1(self):
         node = TextNode("This is text with a [link](https://www.example.com) and [another](https://www.example.com/another)", "text", None)
         actual_link = node.extract_markdown_links()
-        expected_link = "[('link', 'https://www.example.com'), ('another', 'https://www.example.com/another')]"
+        expected_link = [('link', 'https://www.example.com'), ('another', 'https://www.example.com/another')]
         self.assertEqual(actual_link, expected_link, f"Values do not match!\nExpected: {expected_link}\nActual: {actual_link}")
 
-    def text_extract_images_1(self):
+    def test_text_extract_images_1(self):
         node = TextNode(
             "This is text with an ![image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png) and ![another](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/dfsdkjfd.png)",
             "text", None)
         actual_image = node.extract_markdown_links()
-        expected_image = "[('image', 'https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png'), ('another', 'https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/dfsdkjfd.png')]"
+        expected_image = [('image', 'https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png'), ('another', 'https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/dfsdkjfd.png')]
         self.assertEqual(actual_image, expected_image, f"Values do not match!\nExpected: {expected_image}\nActual: {actual_image}")
 
 
