@@ -1,10 +1,6 @@
 from leafnode import LeafNode
 import re
 
-text_type_text = "text"
-text_type_code = "code"
-text_type_bold = "bold"
-text_type_italic = "italic"
 
 class TextNode:
     def __init__(self, text, text_type, url=None):
@@ -38,7 +34,7 @@ class TextNode:
         else:
             raise Exception("Not a valid TextNode")
 
-    def split_nodes_delimiter(self, old_nodes, delimiter, text_type):
+    def split_nodes_delimiter(self, old_nodes, delimiter, new_text_type):
         # Create a List that will be returned containing New Nodes
         new_nodes = []
 
@@ -61,10 +57,10 @@ class TextNode:
                 for i in range(0, len(string_list)):
                     if i%2 == 0:
                         # Plain text segments
-                        new_nodes.append(TextNode(string_list[i], text_type_text))
+                        new_nodes.append(TextNode(string_list[i], node.text_type))
                     else:
                         # Text segments between delimiters
-                        new_nodes.append(TextNode(string_list[i], text_type, ))
+                        new_nodes.append(TextNode(string_list[i], new_text_type, ))
 
             #If the Node Currently being worked on ISN'T a textnode, then we can just add it on as is.
             else:
@@ -77,3 +73,20 @@ class TextNode:
 
     def extract_markdown_links(self):
         return re.findall(r"\[(.*?)\]\((.*?)\)", self.text)
+
+    def split_nodes_image(self, old_nodes):
+        new_nodes = []
+        for node in old_nodes:
+            # For each of the nodes, I want to make sure they are images
+            matched_images = re.findall(r'!\[([^\]]+)\]\(([^)]+)\)', node.text)
+            if matched_images:
+              image_text =  node.text.extract_markdown_images()
+              image_text.split(f"![{}]({})",1)
+
+            elif node.text is None:
+                continue
+            else:
+                new_nodes.append(node)
+
+    def split_nodes_link(self, old_nodes):
+        pass
