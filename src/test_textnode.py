@@ -94,6 +94,100 @@ class TestTextNode(unittest.TestCase):
         expected_image = [('image', 'https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png'), ('another', 'https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/dfsdkjfd.png')]
         self.assertEqual(actual_image, expected_image, f"Values do not match!\nExpected: {expected_image}\nActual: {actual_image}")
 
+    def test_split_image_1(self):
+        node = TextNode(
+            "This is text with an ![image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png) and another ![second image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/3elNhQu.png)",
+            "text", None)
+        actual_nodes = node.split_nodes_image([node])
+        expected_nodes = [TextNode('This is text with an ', 'text_type_text', ),
+                          TextNode('image', 'text_type_image', 'https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png'),
+                          TextNode(' and another ', 'text_type_text', ),
+                          TextNode('second image', 'text_type_image', 'https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/3elNhQu.png')]
+        self.assertEqual(actual_nodes, expected_nodes, f"Values do not match!\nExpected: {expected_nodes}\nActual: {actual_nodes}")
+
+    def test_split_image_2(self):
+        node = TextNode("This is text", "text", None)
+        actual_nodes = node.split_nodes_image([node])
+        expected_nodes = [TextNode('This is text', 'text', )]
+        self.assertEqual(actual_nodes, expected_nodes, f"Values do not match!\nExpected: {expected_nodes}\nActual: {actual_nodes}")
+
+    def test_split_image_3(self):
+        node = TextNode(
+            "This is text with an ![image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png)",
+            "text", None)
+        actual_nodes = node.split_nodes_image([node])
+        expected_nodes = [TextNode('This is text with an ', 'text_type_text', ),
+                          TextNode('image', 'text_type_image', 'https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png')]
+        self.assertEqual(actual_nodes, expected_nodes, f"Values do not match!\nExpected: {expected_nodes}\nActual: {actual_nodes}")
+
+    def test_split_image_4(self):
+        node = TextNode(
+            "![image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png) Shown above is the image of a Lion on the prowl not to be confused with the image below of a penguin ![image](https://t3.gstatic.com/licensed-image?q=tbn:ANd9GcTlHcpgBeZ4jAHIxBi5VMDbTSpQfoyKyAVIM3NJ19H60jWfrjMGbUlzRulBc2Mhu2eK) Or the following image of a Tambourine! ![image](https://m.media-amazon.com/images/I/81OBNvoVk6L.jpg)",
+            "text", None)
+        actual_nodes = node.split_nodes_image([node])
+        expected_nodes = [TextNode('image', 'text_type_image', 'https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png'),
+                          TextNode(' Shown above is the image of a Lion on the prowl not to be confused with the image below of a penguin ', 'text_type_text', ),
+                          TextNode('image', 'text_type_image', 'https://t3.gstatic.com/licensed-image?q=tbn:ANd9GcTlHcpgBeZ4jAHIxBi5VMDbTSpQfoyKyAVIM3NJ19H60jWfrjMGbUlzRulBc2Mhu2eK'),
+                          TextNode(' Or the following image of a Tambourine! ', 'text_type_text', ),
+                          TextNode('image', 'text_type_image', 'https://m.media-amazon.com/images/I/81OBNvoVk6L.jpg')]
+        self.assertEqual(actual_nodes, expected_nodes, f"Values do not match!\nExpected: {expected_nodes}\nActual: {actual_nodes}")
+
+
+    def test_split_image_5(self):
+        node = TextNode("", "text", None)
+        actual_nodes = node.split_nodes_image([node])
+        expected_nodes = [TextNode('', 'text', )]
+        self.assertEqual(actual_nodes, expected_nodes, f"Values do not match!\nExpected: {expected_nodes}\nActual: {actual_nodes}")
+
+
+    def test_split_link_1(self):
+        node = TextNode(
+            "This is text with an [link](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png) and another [second link](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/3elNhQu.png)",
+            "text", None)
+        actual_nodes = node.split_nodes_link([node])
+        expected_nodes = [TextNode('This is text with an ', 'text_type_text', ),
+                          TextNode('link', 'text_type_url', 'https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png'),
+                          TextNode(' and another ', 'text_type_text', ),
+                          TextNode('second link', 'text_type_url', 'https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/3elNhQu.png')]
+        self.assertEqual(actual_nodes, expected_nodes, f"Values do not match!\nExpected: {expected_nodes}\nActual: {actual_nodes}")
+
+    def test_split_link_2(self):
+        node = TextNode(
+            "This is text with no link",
+            "text", None)
+        actual_nodes = node.split_nodes_link([node])
+        expected_nodes = [TextNode('This is text with no link', 'text', ),]
+        self.assertEqual(actual_nodes, expected_nodes, f"Values do not match!\nExpected: {expected_nodes}\nActual: {actual_nodes}")
+
+    def test_split_link_3(self):
+        node = TextNode(
+            "[link](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png) Shown above a link to a Lion on the prowl not to be confused with the link below leading to a penguin [link](https://t3.gstatic.com/licensed-image?q=tbn:ANd9GcTlHcpgBeZ4jAHIxBi5VMDbTSpQfoyKyAVIM3NJ19H60jWfrjMGbUlzRulBc2Mhu2eK) Or the following link to a Tambourine! [link](https://m.media-amazon.com/images/I/81OBNvoVk6L.jpg)",
+            "text", None)
+        actual_nodes = node.split_nodes_link([node])
+        expected_nodes = [TextNode('link', 'text_type_url', 'https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png'),
+                          TextNode(' Shown above a link to a Lion on the prowl not to be confused with the link below leading to a penguin ', 'text_type_text', ),
+                          TextNode('link', 'text_type_url', 'https://t3.gstatic.com/licensed-image?q=tbn:ANd9GcTlHcpgBeZ4jAHIxBi5VMDbTSpQfoyKyAVIM3NJ19H60jWfrjMGbUlzRulBc2Mhu2eK'),
+                          TextNode(' Or the following link to a Tambourine! ', 'text_type_text', ),
+                          TextNode('link', 'text_type_url', 'https://m.media-amazon.com/images/I/81OBNvoVk6L.jpg')]
+        self.assertEqual(actual_nodes, expected_nodes, f"Values do not match!\nExpected: {expected_nodes}\nActual: {actual_nodes}")
+
+    def test_split_link_4(self):
+        node = TextNode(
+            "",
+            "text", None)
+        actual_nodes = node.split_nodes_link([node])
+        expected_nodes = [TextNode('', 'text', ),]
+        self.assertEqual(actual_nodes, expected_nodes, f"Values do not match!\nExpected: {expected_nodes}\nActual: {actual_nodes}")
+
+    def test_split_link_5(self):
+        node = TextNode(
+            "This is text with one link [link](www.totallycoollinks.com)",
+            "text", None)
+        actual_nodes = node.split_nodes_link([node])
+        expected_nodes = [TextNode('This is text with one link ', 'text_type_text', ),
+                          TextNode('link', 'text_type_url', 'www.totallycoollinks.com')]
+        self.assertEqual(actual_nodes, expected_nodes, f"Values do not match!\nExpected: {expected_nodes}\nActual: {actual_nodes}")
+
 
 if __name__ == "__main__":
     unittest.main()
